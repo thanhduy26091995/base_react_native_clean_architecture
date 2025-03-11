@@ -8,6 +8,10 @@ const httpClient = axios.create({
 
 export const fetchTodoList = async () => {
   const response = await httpClient.get("/todos");
-  console.log("Response: ", response.data.length);
   return response.data as TodoResponse[];
 };
+
+export const getTodoDetail = async(id: number) => {
+  const response = await httpClient.get(`/todos/${id}`);
+  return response.data as TodoResponse;
+}
