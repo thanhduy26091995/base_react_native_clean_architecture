@@ -1,4 +1,3 @@
-import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
 
@@ -7,6 +6,11 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeScreen from "./home";
+import TabTwoScreen from "./explore";
+
+const Tab = createBottomTabNavigator();
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -14,10 +18,10 @@ export default function TabLayout() {
   console.log("TabLayout");
 
   return (
-    <Tabs
+    <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: false,
+        headerShown: true,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
@@ -29,7 +33,8 @@ export default function TabLayout() {
         }),
       }}
     >
-      <Tabs.Screen
+      <Tab.Screen
+        component={HomeScreen}
         name="home"
         options={{
           title: "Home",
@@ -38,7 +43,8 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      <Tab.Screen
+        component={TabTwoScreen}
         name="explore"
         options={{
           title: "Explore",
@@ -47,6 +53,6 @@ export default function TabLayout() {
           ),
         }}
       />
-    </Tabs>
+    </Tab.Navigator>
   );
 }

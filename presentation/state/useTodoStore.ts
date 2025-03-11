@@ -1,6 +1,6 @@
 import { container } from "@/app/config/inversify.config";
-import { TodoRepositoryImpl } from "@/data/repositories/TodoRepositoryImpl";
 import { TodoEntity } from "@/domain/entities/TodoEntity";
+import { GetTodoDetailUseCase } from "@/domain/usecases/GetTodoDetailUseCase";
 import { GetTodoListUseCase } from "@/domain/usecases/GetTodoListUseCase";
 import { create } from "zustand";
 
@@ -10,8 +10,17 @@ interface TodoState {
   loadTodoList: () => Promise<void>;
 }
 
+interface TodoDetailState {
+  todoEntity: TodoEntity;
+
+  getTodoDetail: (id: number) => Promise<void>;
+}
+
 const getTodoListUseCase =
   container.get<GetTodoListUseCase>("GetTodoListUseCase");
+const getTodoDetailUseCase = container.get<GetTodoDetailUseCase>(
+  "GetTodoDetailUseCase"
+);
 
 export const useTodoStore = create<TodoState>((set) => ({
   todoList: [],
@@ -19,7 +28,7 @@ export const useTodoStore = create<TodoState>((set) => ({
   loadTodoList: async () => {
     const response = await getTodoListUseCase.execute();
     set({
-      todoList: response
+      todoList: response,
     });
-  }
+  },
 }));
