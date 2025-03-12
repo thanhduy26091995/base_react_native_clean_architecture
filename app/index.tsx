@@ -33,18 +33,7 @@ export default function RootLayout() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Stack.Navigator
-        initialRouteName="Main"
-        screenOptions={{
-          header: ({ options, route, back }) => (
-            <Header
-              back={back}
-              {...options}
-              title={getHeaderTitle(options, route.name)}
-            />
-          ),
-        }}
-      >
+      <Stack.Navigator initialRouteName="Main">
         <Stack.Screen
           name="Main"
           options={{ headerShown: false }}

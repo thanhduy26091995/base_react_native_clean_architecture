@@ -32,3 +32,14 @@ export const useTodoStore = create<TodoState>((set) => ({
     });
   },
 }));
+
+export const useTodoDetailStore = create<TodoDetailState>((set) => ({
+  todoEntity: {} as TodoEntity,
+
+  getTodoDetail: async (id: number) => {
+    const response = await getTodoDetailUseCase.execute(id);
+    set({
+      todoEntity: response,
+    });
+  },
+}));
