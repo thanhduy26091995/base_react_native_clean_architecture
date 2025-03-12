@@ -8,6 +8,9 @@ export class GetTodoListUseCase implements BaseUseCase<TodoEntity[], void> {
   constructor(@inject private todoRepository: TodoRepository) {}
 
   async execute(): Promise<TodoEntity[]> {
-    return this.todoRepository.fetchTodoList();
+    return (await this.todoRepository.fetchTodoList()).map((item) => {
+      this.todoRepository.addTodoToLocal(item);
+      return item;
+    });
   }
 }

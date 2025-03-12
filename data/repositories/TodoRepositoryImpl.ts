@@ -1,6 +1,7 @@
 import { TodoEntity } from "@/domain/entities/TodoEntity";
 import { TodoRepository } from "@/domain/repositories/TodoRepository";
 import { fetchTodoList, getTodoDetail } from "../datasources/todoApi";
+import { TodoDAO } from "../database/dao/todo.dao";
 
 export class TodoRepositoryImpl implements TodoRepository {
   async fetchTodoList(): Promise<TodoEntity[]> {
@@ -21,5 +22,13 @@ export class TodoRepositoryImpl implements TodoRepository {
       title: response.title,
       completed: response.completed,
     };
+  }
+
+  addTodoToLocal(todo: TodoEntity): Promise<void> {
+    return TodoDAO.insert(todo);
+  }
+
+  fetchTodoListLocal(): Promise<TodoEntity[]> {
+    return TodoDAO.getAll();
   }
 }
