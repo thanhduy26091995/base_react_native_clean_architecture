@@ -10,7 +10,10 @@ import TodoDetailScreen from "../presentation/screens/detail/TodoDetailScreen";
 import TabLayout from "../presentation/screens/main/(tabs)/TabNavigator";
 import NotFoundScreen from "../presentation/screens/+not-found";
 import { RootStackParamList } from "@/app/navigation/types";
-import { getDb, initializeDatabase } from "@/data/database/database";
+import {
+  getDb,
+  migrateDbIfNeeded,
+} from "@/data/database/database";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -34,7 +37,7 @@ export default function RootLayout() {
   const Stack = createNativeStackNavigator<RootStackParamList>();
 
   return (
-    <SQLite.SQLiteProvider databaseName="todo.db" onInit={initializeDatabase}>
+    <SQLite.SQLiteProvider databaseName="todo.db" onInit={migrateDbIfNeeded}>
       <SafeAreaView style={{ flex: 1 }}>
         <Stack.Navigator initialRouteName="Main">
           <Stack.Screen
