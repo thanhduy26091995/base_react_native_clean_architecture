@@ -18,9 +18,11 @@ export const migrateDbIfNeeded = async () => {
   db = await SQLite.openDatabaseAsync("todo.db");
   const DATABASE_VERSION = 1;
 
-  let { user_version: currentDbVersion } = await db.getFirstAsync<{
+  let result = await db.getFirstAsync<{
     user_version: number;
   }>("PRAGMA user_version");
+
+  let currentDbVersion = result ? result.user_version : 0;
 
   console.log(currentDbVersion);
 
