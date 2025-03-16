@@ -2,6 +2,7 @@ import { container } from "@/app/config/inversify.config";
 import { TodoEntity } from "@/domain/entities/TodoEntity";
 import { GetTodoDetailUseCase } from "@/domain/usecases/GetTodoDetailUseCase";
 import { GetTodoListUseCase } from "@/domain/usecases/GetTodoListUseCase";
+import { setNotifyTodoListUpdate } from "@/utils/notifyLocalUpdate";
 import { create } from "zustand";
 
 interface TodoState {
@@ -26,9 +27,15 @@ export const useTodoStore = create<TodoState>((set) => ({
   todoList: [],
 
   loadTodoList: async () => {
-    const response = await getTodoListUseCase.execute();
+    const localTodos = await getTodoListUseCase.execute();
     set({
-      todoList: response,
+      todoList: localTodos,
+    });
+
+    setNotifyTodoListUpdate((todos) => {
+      set({
+        todoList: todos,
+      });
     });
   },
 }));
